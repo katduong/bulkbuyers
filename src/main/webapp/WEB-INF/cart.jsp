@@ -90,9 +90,9 @@
 
     <div class="container my-5 col-9 main">
     	<h3 class="title">My Cart</h3>
-    	<div class="row">
-    		<div class="col-9">
-		        <table class="">
+    	<div class="row justify-content-between">
+    		<div class="col-8">
+		        <table class="col-12">
 		            <thead class="border">
 		                <tr>
 		                    <th>Product</th>
@@ -101,7 +101,7 @@
 		                </tr>
 		            </thead>
 		            <tbody class="border">
-		                <tr class="">
+		                <tr class="border">
 		                    <td class="col-4">
 		                        <img src="https://static.bhphoto.com/images/images1000x1000/1529939904_1417335.jpg"
 		                            alt="speakers" class="col-3 d-inline-block">
@@ -121,17 +121,58 @@
 		                        <p>$100</p>
 		                    </td>
 		                </tr>
-		
+						<tr class="border">
+		                    <td class="col-4">
+		                        <img src="https://static.bhphoto.com/images/images1000x1000/1529939904_1417335.jpg"
+		                            alt="speakers" class="col-3 d-inline-block">
+		                        <div class="d-inline-block align-bottom">
+		                            <small class="text-muted">Brand</small>
+		                            <a href="">
+		                                <p class="blue">Product title</p>
+		                            </a>
+		                            <p class="price h5">$100</p>
+		                        </div>
+		                    </td>
+		                    <td class="text-center col-6">
+		                        <input type="number" min="0" value="1">
+		                        <a href="" class="text-muted"><small>Remove</small></a>
+		                    </td>
+		                    <td class="col-2">
+		                        <p>$100</p>
+		                    </td>
+		                </tr>
+		                <tr class="border">
+		                    <td class="col-4">
+		                        <img src="https://static.bhphoto.com/images/images1000x1000/1529939904_1417335.jpg"
+		                            alt="speakers" class="col-3 d-inline-block">
+		                        <div class="d-inline-block align-bottom">
+		                            <small class="text-muted">Brand</small>
+		                            <a href="">
+		                                <p class="blue">Product title</p>
+		                            </a>
+		                            <p class="price h5">$100</p>
+		                        </div>
+		                    </td>
+		                    <td class="text-center col-6">
+		                        <input type="number" min="0" value="1">
+		                        <a href="" class="text-muted"><small>Remove</small></a>
+		                    </td>
+		                    <td class="col-2">
+		                        <p>$100</p>
+		                    </td>
+		                </tr>
 		            </tbody>
 		        </table>
     		</div>
-    		<div class="col-3 border">
-    			<div class="">
-    				<div class="row justify-content-between">
-    					<p class="blue col-1">Total</p>
-    					<p class="blue col-1">$134.90</p>
+    		<div class="col-4">
+    			<div class="col-12 border p-3">
+   					<div class="row justify-content-between">
+    					<p class="blue col">Total</p>
+    					<p class="blue col">$134.90</p>
     				</div>
-    				<a class="text-light btn btn-info btn-block rounded-0">Checkout</a>
+    				<hr>
+    				<small class="text-muted">Tax included. Shipping calculated at checkout</small>
+    				<a class="text-light btn btn-info btn-block rounded-0 mt-3">Checkout</a>
     			</div>
     		</div>
     	</div>
