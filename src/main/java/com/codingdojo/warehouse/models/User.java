@@ -26,8 +26,10 @@ public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	@NotEmpty(message="Name cannot be empty")
-	private String name;
+	@NotEmpty(message="First name cannot be empty")
+	private String firstName;
+	@NotEmpty(message="Last name cannot be empty")
+	private String lastName;
 	@NotEmpty(message="Email cannot be empty")
     @Email(message="Email must be valid")
     private String email;
@@ -58,13 +60,29 @@ public class User {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getName() {
-		return name;
+	
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public String getEmail() {

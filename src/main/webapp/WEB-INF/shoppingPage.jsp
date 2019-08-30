@@ -41,10 +41,10 @@
             </div>
         </div>
     </div>
-    <div class="container my-3 main">
+    <div class="container my-3 col-9 main">
     	<div class="row gray-text mx-0">
-            <a href="/home" class="gray-text">Home</a>
-            <p class="mx-1"> > <c:out value="${category.name}"/></p>
+            <small><a href="/home" class="gray-text">Home</a></small>
+            <small class="mx-1"> > <c:out value="${category.name}"/></small>
         </div>
     	<div class="row justify-content-between">
 	    	<div class="col-3">
@@ -64,12 +64,19 @@
 		                <div class="row">
 		                	<c:forEach items="${category.products}" var="product">
 			                    <div class="col-3 category-page-borders-second text-center pt-3 ">
-			                        <img src="${product.image}"
-			                            class="product-image">
-			                        <a href="#" class="collection-color"><c:out value="${product.name}"/></a>
-			                        <p class="current-category-text-color">$<c:out value="${product.price}"/></p>
-			                        <p class="current-category-text-color mt-2"><c:out value="${product.numPurchased}/${product.cap}"/></p>
-			                        <button class="btn product-button mb-3">Add to Cart</button>
+			                        <img src="${product.image}" class="product-image">
+			                        <div class="container-fluid">
+				                        <div class="d-flex flex-column justify-content-between">
+				                        	<div>
+					                        	<a href="/products/${product.id}" class="collection-color"><c:out value="${product.name}"/></a>
+					                        	<p class="current-category-text-color">$<c:out value="${product.price}"/></p>
+							                    <p class="current-category-text-color mt-2"><c:out value="${product.numPurchased}/${product.cap}"/></p>
+				                        	</div>
+				                        	<div class="">
+						                        <button class="btn product-button mb-3">Add to Cart</button>
+				                        	</div>
+				                        </div>
+				                    </div>
 			                    </div>
 		                    </c:forEach>
 		                </div>

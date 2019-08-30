@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -23,13 +24,9 @@ public class Category {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "categories_products", 
-        joinColumns = @JoinColumn(name = "category_id"), 
-        inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
+	@OneToMany(mappedBy="category", fetch = FetchType.LAZY)
     private List<Product> products;
+	
 	private String name;
 	@Column(updatable=false)
     private Date createdAt;

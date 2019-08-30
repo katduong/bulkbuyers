@@ -22,6 +22,7 @@ public class Orderproduct {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+	private int quantity;
 	
 	@Column(updatable=false)
     private Date createdAt;
@@ -47,6 +48,14 @@ public class Orderproduct {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public Date getCreatedAt() {

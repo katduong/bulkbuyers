@@ -35,19 +35,24 @@
                 </div>
             </form>
             <div class="d-inline-block header__action-item-content">
-	            <a href="" class="text-light d-block" id="login">Login / Signup</a>
+            	<c:if test="${user != null}">
+            		<a class="text-light">Hello, <c:out value="${user.firstName}"/></a>
+            	</c:if>
+            	<c:if test="${user == null}">
+	            	<a href="" class="text-light d-block" id="login">Login / Signup</a>
+	            </c:if>
 	            <div id="popup" class="popover popover--large popover--unlogged p-4" aria-hidden="true">
 	            	
 	            	<div class="popover__panel-list" style="" id="popover-list">
 	            		<div class="popover__panel popover__panel--default" id="loginPanel">
 	            			<h5 class="blue">Login to my account</h5>
 			            	<p>Enter your email and password</p>
-			            	<form action="/login" method="post">
+			            	<form action="/home/login" method="post">
 			            		<div class="form-group">
-			            			<input class="form-control rounded-0" placeholder="Email">
+			            			<input class="form-control rounded-0" placeholder="Email" name="email">
 			            		</div>
 			            		<div class="form-group">
-			            			<input class="form-control rounded-0" placeholder="Password">
+			            			<input class="form-control rounded-0" type="password" placeholder="Password" name="password">
 			            		</div>
 			            		<button type="submit" class="btn btn-block btn-info rounded-0">Login</button>
 			            	</form>
@@ -56,21 +61,21 @@
 	            		<div class="popover__panel popover__panel--sliding" id="registerPanel">
 		            		<h5 class="blue">Create my account</h5>
 		            		<p>Please fill in the information below:</p>
-			            	<form action="/register" method="post">
+			            	<form:form action="/home/register" method="post" modelAttribute="u">
 			            		<div class="form-group">
-			            			<input class="form-control rounded-0" placeholder="First name">
+			            			<form:input path="firstName" class="form-control rounded-0" placeholder="First name"/>
 			            		</div>
 			            		<div class="form-group">
-			            			<input class="form-control rounded-0" placeholder="Last name">
+			            			<form:input path="lastName" class="form-control rounded-0" placeholder="Last name"/>
 			            		</div>
 			            		<div class="form-group">
-			            			<input class="form-control rounded-0" placeholder="Email">
+			            			<form:input path="email" class="form-control rounded-0" placeholder="Email"/>
 			            		</div>
 			            		<div class="form-group">
-			            			<input class="form-control rounded-0" placeholder="Password">
+			            			<form:input path="password" type="password" class="form-control rounded-0" placeholder="Password"/>
 			            		</div>
 			            		<button type="submit" class="btn btn-block btn-info rounded-0">Create my account</button>
-			            	</form>
+			            	</form:form>
 			            	<p class="my-3">Already have an account? <a href="" class="current-category-color" id="loginAccount">Login here</a></p>	
 	            		</div>
 	            	</div>

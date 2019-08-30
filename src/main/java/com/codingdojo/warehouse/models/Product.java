@@ -11,8 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -37,13 +36,9 @@ public class Product {
 	@OneToMany(mappedBy="product", fetch = FetchType.LAZY)
 	private List<User> purchasers;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "categories_products", 
-        joinColumns = @JoinColumn(name = "product_id"), 
-        inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private List<Category> categories;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="category_id")
+    private Category category;
 	
 	@OneToOne(mappedBy="product", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private Orderproduct orderproduct;
@@ -95,11 +90,11 @@ public class Product {
 	public void setPurchasers(List<User> purchasers) {
 		this.purchasers = purchasers;
 	}
-	public List<Category> getCategories() {
-		return categories;
+	public Category getCategory() {
+		return category;
 	}
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+	public void setCategory(Category category) {
+		this.category = category;
 		
 	}
 	public String getImage() {

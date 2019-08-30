@@ -2,6 +2,7 @@ package com.codingdojo.warehouse.services;
 
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.codingdojo.warehouse.models.Category;
@@ -79,4 +80,30 @@ public class MainService {
 	public List<Category> findAllCategories(){
 		return categoryRepo.findAll();
 	}
+	
+	public User registerUser(User user) {
+		String hashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+		user.setPassword(hashed);
+		return userRepo.save(user);
+	}
+	
+	public User findByEmail(String email) {
+		return userRepo.findByEmail(email);
+	}
+	
+	public boolean authenticateUser(String email, String password) {
+		User user = userRepo.findByEmail(email);
+		if (user == null) {
+			return false;
+		}
+		else {
+			if (BCrypt.checkpw(password, user.getPassword())) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+	
 }

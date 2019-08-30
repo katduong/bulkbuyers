@@ -42,6 +42,10 @@
     width:90%;
 }
 
+.product-title {
+	height: 25%;
+}
+
 .background-white{
     background-color: white;
 }
