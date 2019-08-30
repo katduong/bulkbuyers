@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,66 +103,27 @@
 		                </tr>
 		            </thead>
 		            <tbody class="border">
-		                <tr class="border">
-		                    <td class="col-4">
-		                        <img src="https://static.bhphoto.com/images/images1000x1000/1529939904_1417335.jpg"
-		                            alt="speakers" class="col-3 d-inline-block">
-		                        <div class="d-inline-block align-bottom">
-		                            <small class="text-muted">Brand</small>
-		                            <a href="">
-		                                <p class="blue">Product title</p>
-		                            </a>
-		                            <p class="price h5">$100</p>
-		                        </div>
-		                    </td>
-		                    <td class="text-center col-6">
-		                        <input type="number" min="0" value="1">
-		                        <a href="" class="text-muted"><small>Remove</small></a>
-		                    </td>
-		                    <td class="col-2">
-		                        <p>$100</p>
-		                    </td>
-		                </tr>
-						<tr class="border">
-		                    <td class="col-4">
-		                        <img src="https://static.bhphoto.com/images/images1000x1000/1529939904_1417335.jpg"
-		                            alt="speakers" class="col-3 d-inline-block">
-		                        <div class="d-inline-block align-bottom">
-		                            <small class="text-muted">Brand</small>
-		                            <a href="">
-		                                <p class="blue">Product title</p>
-		                            </a>
-		                            <p class="price h5">$100</p>
-		                        </div>
-		                    </td>
-		                    <td class="text-center col-6">
-		                        <input type="number" min="0" value="1">
-		                        <a href="" class="text-muted"><small>Remove</small></a>
-		                    </td>
-		                    <td class="col-2">
-		                        <p>$100</p>
-		                    </td>
-		                </tr>
-		                <tr class="border">
-		                    <td class="col-4">
-		                        <img src="https://static.bhphoto.com/images/images1000x1000/1529939904_1417335.jpg"
-		                            alt="speakers" class="col-3 d-inline-block">
-		                        <div class="d-inline-block align-bottom">
-		                            <small class="text-muted">Brand</small>
-		                            <a href="">
-		                                <p class="blue">Product title</p>
-		                            </a>
-		                            <p class="price h5">$100</p>
-		                        </div>
-		                    </td>
-		                    <td class="text-center col-6">
-		                        <input type="number" min="0" value="1">
-		                        <a href="" class="text-muted"><small>Remove</small></a>
-		                    </td>
-		                    <td class="col-2">
-		                        <p>$100</p>
-		                    </td>
-		                </tr>
+		            	<c:forEach items="${cart}" var="p">
+		            		<tr class="border">
+			                    <td class="col-4">
+			                        <img src="${p.product.image}" alt="${p.product.name}" class="col-3 d-inline-block">
+			                        <div class="d-inline-block align-bottom col-8">
+			                            <small class="text-muted"><c:out value="${p.product.brand}"/></small>
+			                            <a href="/products/${p.product.id}">
+			                                <p class="blue"><c:out value="${p.product.name}"/></p>
+			                            </a>
+			                            <p class="price h5">$<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${p.product.price}" /></p>
+			                        </div>
+			                    </td>
+			                    <td class="text-center col-6">
+			                        <input type="number" min="0" value="${p.quantity}">
+			                        <a href="/products/${p.id}/remove" class="text-muted"><small>Remove</small></a>
+			                    </td>
+			                    <td class="col-2">
+			                        <p>$<c:out value="${p.product.price * p.quantity}"/></p>
+			                    </td>
+			                </tr>
+		            	</c:forEach>
 		            </tbody>
 		        </table>
     		</div>
@@ -168,11 +131,11 @@
     			<div class="col-12 border p-3">
    					<div class="row justify-content-between">
     					<p class="blue col">Total</p>
-    					<p class="blue col">$134.90</p>
+    					<p class="blue col">$<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${total}" /></p>
     				</div>
     				<hr>
     				<small class="text-muted">Tax included. Shipping calculated at checkout</small>
-    				<a class="text-light btn btn-info btn-block rounded-0 mt-3">Checkout</a>
+    				<a href="/checkout" class="text-light btn btn-info btn-block rounded-0 mt-3">Checkout</a>
     			</div>
     		</div>
     	</div>
