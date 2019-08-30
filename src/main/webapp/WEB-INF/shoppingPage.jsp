@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +34,7 @@
             </form>
             <div class="d-inline-block header__action-item-content">
             	<c:if test="${user != null}">
-            		<a class="text-light">Hello, <c:out value="${user.firstName}"/></a>
+            		<p class="text-light m-0">Hello, <c:out value="${user.firstName}"/> <a href="/logout" class="text-light ml-2"><u>Logout</u></a></p>
             	</c:if>
             	<c:if test="${user == null}">
 	            	<a href="" class="text-light d-block" id="login">Login / Signup</a>
@@ -44,7 +45,7 @@
 	            		<div class="popover__panel popover__panel--default" id="loginPanel">
 	            			<h5 class="blue">Login to my account</h5>
 			            	<p>Enter your email and password</p>
-			            	<form action="/category/${category.id}/login" method="post">
+			            	<form action="/home/login" method="post">
 			            		<div class="form-group">
 			            			<input class="form-control rounded-0" placeholder="Email" name="email">
 			            		</div>
@@ -58,7 +59,7 @@
 	            		<div class="popover__panel popover__panel--sliding" id="registerPanel">
 		            		<h5 class="blue">Create my account</h5>
 		            		<p>Please fill in the information below:</p>
-			            	<form:form action="/category/${category.id}/register" method="post" modelAttribute="u">
+			            	<form:form action="/home/register" method="post" modelAttribute="u">
 			            		<div class="form-group">
 			            			<form:input path="firstName" class="form-control rounded-0" placeholder="First name"/>
 			            		</div>
@@ -110,20 +111,26 @@
 		            <div class="container-fluid">
 		                <div class="row">
 		                	<c:forEach items="${category.products}" var="product">
-			                    <div class="col-3 category-page-borders-second text-center pt-3 ">
+			                    <div class="col-3 category-page-borders-second text-center pt-3">
 			                        <img src="${product.image}" class="product-image">
-			                        <div class="container-fluid">
-				                        <div class="d-flex flex-column justify-content-between">
-				                        	<div>
-					                        	<a href="/products/${product.id}" class="collection-color"><c:out value="${product.name}"/></a>
-					                        	<p class="current-category-text-color">$<c:out value="${product.price}"/></p>
-							                    <p class="current-category-text-color mt-2"><c:out value="${product.numPurchased}/${product.cap}"/></p>
+		                        	<form:form modelAttribute="orderproduct" action="/addCart" method="post">
+				                        <div class="" id="productInfo">
+				                        	
+				                        	<div class="text-left">
+				                        		<small class="text-muted d-block"><c:out value="${product.brand}"/></small>
+					                        	<a href="/products/${product.id}" class="blue"><c:out value="${product.name}"/></a>
+					                        	<p class="current-category-text-color price h5">$<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${product.price}" /></p>
+							                 
 				                        	</div>
-				                        	<div class="">
-						                        <button class="btn product-button mb-3">Add to Cart</button>
+				                        	<div class="test">
+				                        		<p class="current-category-text-color mt-2"><c:out value="${product.numPurchased}/${product.cap}"/> sold</p>	
+						                        <button type="submit" class="btn product-button rounded-0 mb-3">Add to Cart</button>
 				                        	</div>
+				                        	<form:hidden path="product" value="${product.id}"/>
+				                        	<form:hidden path="quantity" value="${1}"/>
+				                        	
 				                        </div>
-				                    </div>
+			                    	</form:form>
 			                    </div>
 		                    </c:forEach>
 		                </div>
@@ -134,19 +141,19 @@
 	    </div>
         <div class="container my-5 col-12">
             <div class="row justify-content-between">
-                <div class="box1 col-4 rounded">
-                    <h5>Category 1</h5>
-                    <button class="btn btn-light">Shop Category 1</button>
-                </div>
-                <div class="box2 col-3 rounded">
-                    <h5>Category 2</h5>
-                    <button class="btn btn-light">Shop Category 2</button>
-                </div>
-                <div class="box3 col-4 rounded">
-                    <h5>Category 3</h5>
-                    <button class="btn btn-light">Shop Category 3</button>
-                </div>
-            </div>
+	            <div class="box1 col-4 rounded">
+	                <h5>Electronics</h5>
+	                <a class="btn btn-light pink" href="/category/5">Shop Electronics</a>
+	            </div>
+	            <div class="box2 col-3 rounded">
+	                <h5>Appliances</h5>
+	                <a class="btn btn-light purple" href="/category/2">Shop Appliances</a>
+	            </div>
+	            <div class="box3 col-4 rounded">
+	                <h5>Audio</h5>
+	                <a class="btn btn-light light-blue" href="/category/1">Shop Audio</a>
+	            </div>
+	        </div>
         </div>
         <hr>
     </div>

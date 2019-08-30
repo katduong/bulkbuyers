@@ -32,7 +32,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value= {"/","/home"})
-	public String homePage(Model model, HttpSession session, @ModelAttribute("u") User u) {
+	public String homePage(Model model, HttpSession session, @ModelAttribute("u") User u, @ModelAttribute("orderProduct") Orderproduct orderproduct) {
 		if (session.getAttribute("id") != null) {
 			System.out.println("user logged in");
 			User user = mainService.findUserById((Long) session.getAttribute("id"));
@@ -48,6 +48,8 @@ public class MainController {
 			List<Long> cart = new ArrayList<Long>();
 			session.setAttribute("cart", cart);
 		}
+		List<Product> products = mainService.findAllProducts();
+		model.addAttribute("products", products);
 		return "homePage.jsp";
 	}
 	
@@ -79,26 +81,7 @@ public class MainController {
 	}
 	
 	@RequestMapping("/category/{id}")
-	public String showCategoryProduct(@PathVariable("id") Long id, Model model, HttpSession session, @ModelAttribute("u") User u) {
-//		if (session.getAttribute("id") != null) {
-//			System.out.println("user is logged in on category page");
-//			User user = mainService.findUserById((Long) session.getAttribute("id"));
-//			List<Orderproduct> cart = user.getCart();
-//			System.out.println(cart);
-//			List<Long> temp = new ArrayList<Long>();
-//			for (Orderproduct op : cart) {
-//				temp.add(op.getId());
-//			}
-//			session.setAttribute("cart", temp);
-//		}
-//		else if (session.getAttribute("cart") == null) {
-//			List<Long> cart = new ArrayList<Long>();
-//			session.setAttribute("cart", cart);
-//		}
-//		List<Long> cart = (List<Long>) session.getAttribute("cart");
-//		for (Long p : cart) {
-//			System.out.println(mainService.findOrderProductById(p).getProduct().getName());
-//		}
+	public String showCategoryProduct(@ModelAttribute("orderproduct") Orderproduct orderproduct, @PathVariable("id") Long id, Model model, HttpSession session, @ModelAttribute("u") User u) {
 		List<Category> categories = mainService.findAllCategories();
 		Category category = mainService.findCategoryById(id);
 		model.addAttribute("category", category);
@@ -106,9 +89,6 @@ public class MainController {
 		for (Category cat : categories) {
 			System.out.println(cat.getName());
 		}
-//		Product product = mainService.findProductById(Integer.toUnsignedLong(1));
-//		category.getProducts().add(product);
-//		mainService.createCategory(category);
 		return "shoppingPage.jsp";
 	}
 	
@@ -147,7 +127,7 @@ public class MainController {
 	}
 	
 	@RequestMapping("/cart")
-	public String showCart(Model model, HttpSession session) {
+	public String showCart(Model model, HttpSession session, @ModelAttribute("order") Order order) {
 		List<Long> cart = (List<Long>) session.getAttribute("cart");
 		List<Orderproduct> cartItems = new ArrayList<Orderproduct>();
 		Double total = 0.0;
@@ -164,8 +144,8 @@ public class MainController {
 	@PostMapping("/addCart")
 	public String addCart(@ModelAttribute("orderProduct") Orderproduct orderProduct, HttpSession session, @ModelAttribute("user") User u) {
 		Long userid = (Long) session.getAttribute("id");
-		User user = mainService.findUserById(userid);
-		if (user != null) {
+		if (userid != null) {
+			User user = mainService.findUserById(userid);
 			List<Orderproduct> cart = user.getCart();
 			List<Long> temp = (List<Long>) session.getAttribute("cart");
 			Orderproduct op = mainService.createOrderProduct(orderProduct);
@@ -185,22 +165,36 @@ public class MainController {
 		return "redirect:/category/"+ orderProduct.getProduct().getCategory().getId();
 	}
 	
-	@RequestMapping("/checkout")
-	public String checkoutCart(HttpSession session) {
+	@PostMapping("/checkout")
+	public String checkoutCart(HttpSession session, @ModelAttribute("order") Order order) {
 		Long userid = (Long) session.getAttribute("id");
 		User user = mainService.findUserById(userid);
 		List<Orderproduct> cart = user.getCart();
-		Order n = new Order();
-		Order newOrder = mainService.createOrder(n);
+		List<Orderproduct> orderCart = new ArrayList<Orderproduct>();
 		
-		newOrder.setOrderProducts(cart);
-		newOrder.setUser(user);
-		mainService.createOrder(newOrder);
-	
+		for (Orderproduct op : cart) {
+			Product p = op.getProduct();
+			p.setNumPurchased(p.getNumPurchased()+op.getQuantity());
+			if(p.getNumPurchased()>p.getCap()) {
+				p.setNumPurchased(0);
+			}
+			mainService.createProduct(p);
+			orderCart.add(op);
+		}
+		order.setOrderProducts(orderCart);
+		mainService.createOrder(order);
+
 //		clear session
 //		clear cart
 		user.setCart(new ArrayList<Orderproduct>());
+		mainService.createUser(user);
 		session.setAttribute("cart", new ArrayList<Orderproduct>());
-		return "orderConfirmation.jsp";
+		return "redirect:/cart";
+	}
+	
+	@RequestMapping("/logout")
+	public String logoutUser(HttpSession session) {
+		session.invalidate();
+		return "redirect:/home";
 	}
 }

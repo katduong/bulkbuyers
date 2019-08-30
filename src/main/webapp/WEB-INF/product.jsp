@@ -35,7 +35,7 @@
 	            </form>
 	            <div class="d-inline-block header__action-item-content">
 	            	<c:if test="${user != null}">
-	            		<a class="text-light">Hello, <c:out value="${user.firstName}"/></a>
+	            		<p class="text-light m-0">Hello, <c:out value="${user.firstName}"/> <a href="/logout" class="text-light ml-2"><u>Logout</u></a></p>
 	            	</c:if>
 	            	<c:if test="${user == null}">
 		            	<a href="" class="text-light d-block" id="login">Login / Signup</a>

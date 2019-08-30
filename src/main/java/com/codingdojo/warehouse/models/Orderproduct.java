@@ -36,7 +36,7 @@ public class Orderproduct {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-    @OneToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="product_id")
     private Product product;
 	

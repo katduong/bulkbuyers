@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +37,7 @@
             </form>
             <div class="d-inline-block header__action-item-content">
             	<c:if test="${user != null}">
-            		<a class="text-light">Hello, <c:out value="${user.firstName}"/></a>
+            		<p class="text-light m-0">Hello, <c:out value="${user.firstName}"/> <a href="/logout" class="text-light ml-2"><u>Logout</u></a></p>
             	</c:if>
             	<c:if test="${user == null}">
 	            	<a href="" class="text-light d-block" id="login">Login / Signup</a>
@@ -94,19 +95,14 @@
     <!-- main images -->
     <div id="carouselExampleControls" class="carousel slide gray" data-ride="carousel">
         <div class="carousel-inner w-75">
+            
             <div class="carousel-item active">
-                <img class="d-block w-100" src="assets/images/apartment-architecture-cabinets-2724749-crop.jpg"
-                    alt="First slide">
-            </div>
-            <div class="carousel-item">
                 <img class="d-block w-100" src="assets/images/faucet-crop.jpg" alt="Second slide">
             </div>
             <div class="carousel-item">
                 <img class="d-block w-100" src="assets/images/oven.jpg" alt="Third slide">
             </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="assets/images/apple-cup-desk-7974-crop.jpg" alt="Fourth slide">
-            </div>
+            
         </div>
         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -140,58 +136,36 @@
             <p class="col-7">Our mission is to deliver products to our customers at a discounted price. We believe in
                 providing our customers with the top-of-the-line products at a fraction of the cost.</p>
         </div>
-        <a class="btn btn-info rounded-0 px-4 text-light">Explore our products</a>
+        <a class="btn btn-info rounded-0 px-4 text-light" href="/category/1">Explore our products</a>
     </div>
 
     <div class="container mt-5 col-9 main">
         <div class="my-5">
             <p class="h5 ml-n3 title">Most Popular Products</p>
             <div class="row white border">
-                <div class="col-3 border p-4">
-                    <a href=""><img src="assets/images/headphones.jfif" alt="" class="col-12"></a>
-                    <small class="text-muted">Brand</small>
-                    <p>
-                    	<a href="" class="blue">Product title</a>
-                    </p>
-                    <p class="price h5">$100</p>
-                    <p class="text-success">5/20 sold</p>
-                </div>
-                <div class="col-3 border p-4">
-                    <a href=""><img src="assets/images/headphones.jfif" alt="" class="col-12"></a>
-                    <small class="text-muted">Brand</small>
-                    <p>
-                    	<a href="" class="blue">Product title</a>
-                    </p>
-                    <p class="price h5">$100</p>
-                    <p class="text-success">5/20 sold</p>
-                </div>
-                <div class="col-3 border p-4">
-                    <a href=""><img src="assets/images/headphones.jfif" alt="" class="col-12"></a>
-                    <small class="text-muted">Brand</small>
-                    <p>
-                    	<a href=""  class="blue">Product title</a>
-                    </p>
-                    <p class="price h5">$100</p>
-                    <p class="text-success">5/20 sold</p>
-                </div>
-                <div class="col-3 border p-4">
-                    <a href=""><img src="assets/images/headphones.jfif" alt="" class="col-12"></a>
-                    <small class="text-muted">Brand</small>
-                    <p>
-                    	<a href="" class="blue">Product title</a>
-                    </p>
-                    <p class="price h5">$100</p>
-                    <p class="text-success">5/20 sold</p>
-                </div>
-                <div class="col-3 border p-4">
-                    <a href=""><img src="assets/images/headphones.jfif" alt="" class="col-12"></a>
-                    <small class="text-muted">Brand</small>
-                    <p>
-                    	<a href=""  class="blue">Product title</a>
-                    </p>
-                    <p class="price h5">$100</p>
-                    <p class="text-success">5/20 sold</p>
-                </div>
+            	<c:forEach items="${products}" var="product">
+	                <div class="col-3 border p-4">
+		                <form:form action="/addCart" method="post" modelAttribute="orderProduct">
+		                    <a href=""><img src="${product.image}" alt="" class="col-12"></a>
+		                    <div id="productInfo">
+			                    <div>
+			                    	<small class="text-muted"><c:out value="${product.brand}"/></small>
+				                    <p>
+				                    	<a href="" class="blue"><c:out value="${product.name}"/></a>
+				                    </p>
+				                    <p class="price h5">$<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${product.price}" /></p>
+				                    <p class="text-success"><c:out value="${product.numPurchased}/${product.cap}"/> sold</p>
+			                	</div>
+			                	<div>
+				                	<form:hidden path="product" value="${product.id}"/>
+									<form:hidden path="user" value="${user.id}"/>
+									
+									<button type="submit" class="btn btn-info btn-block rounded-0">Add to cart</button>
+			                	</div>
+		                	</div>
+		                </form:form>
+	                </div>
+                </c:forEach>
             </div>
         </div>
     </div>

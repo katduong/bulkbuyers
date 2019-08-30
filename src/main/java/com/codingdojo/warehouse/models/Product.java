@@ -40,8 +40,8 @@ public class Product {
 	@JoinColumn(name="category_id")
     private Category category;
 	
-	@OneToOne(mappedBy="product", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	private Orderproduct orderproduct;
+	@OneToMany(mappedBy="product", fetch=FetchType.LAZY)
+	private List<Orderproduct> orderproduct;
 
 	@Column(updatable=false)
     private Date createdAt;
@@ -103,10 +103,10 @@ public class Product {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public Orderproduct getOrderproduct() {
+	public List<Orderproduct> getOrderproduct() {
 		return orderproduct;
 	}
-	public void setOrderproduct(Orderproduct orderproduct) {
+	public void setOrderproduct(List<Orderproduct> orderproduct) {
 		this.orderproduct = orderproduct;
 	}
 	public String getBrand() {
