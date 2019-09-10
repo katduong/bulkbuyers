@@ -127,7 +127,7 @@ public class MainController {
 	}
 	
 	@RequestMapping("/cart")
-	public String showCart(Model model, HttpSession session, @ModelAttribute("order") Order order) {
+	public String showCart(Model model, HttpSession session, @ModelAttribute("order") Order order, @ModelAttribute("u") User user) {
 		List<Long> cart = (List<Long>) session.getAttribute("cart");
 		List<Orderproduct> cartItems = new ArrayList<Orderproduct>();
 		Double total = 0.0;
